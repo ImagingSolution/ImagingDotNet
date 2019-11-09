@@ -11,6 +11,9 @@ namespace ImagingSolution
 {
     public static partial class ImagingDotNet
     {
+        // 画像表示に関するメソッド
+        // https://imagingsolution.net/program/affine_image_transformations/
+
         /// <summary>
         /// アフィン変換行列(mat)に基づいて画像を描画する
         /// </summary>

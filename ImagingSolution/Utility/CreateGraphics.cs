@@ -18,27 +18,26 @@ namespace ImagingSolution
         /// PictureBoxからGraphicsオブジェクトの作成
         /// </summary>
         /// <param name="pic">作成する対象のPictureBox</param>
-        /// <param name="oldGraphics">前回のGraphicsオブジェクト</param>
-        /// <returns></returns>
-        public static Graphics CreateGraphics(this PictureBox pic, Graphics oldGraphics)
+        /// <param name="graphics">前回のGraphicsオブジェクト</param>
+        /// <param name="mode">補間モード</param>
+        /// <returns>作成したGraphicsオブジェクト</returns>
+        public static void CreateGraphics(this PictureBox pic, ref Graphics graphics, System.Drawing.Drawing2D.InterpolationMode mode = System.Drawing.Drawing2D.InterpolationMode.NearestNeighbor)
         {
-            if ((pic.Width == 0) || (pic.Height == 0)) return oldGraphics;
+            if ((pic.Width == 0) || (pic.Height == 0)) return;
 
-            if (oldGraphics != null) oldGraphics.Dispose();
+            if (graphics != null) graphics.Dispose();
 
             var bmp = pic.Image as Bitmap;
 
-            if (bmp != null)
-            {
-                bmp.Dispose();
-            }
+            if (bmp != null) bmp.Dispose();
 
             bmp = new Bitmap(pic.Width, pic.Height, System.Drawing.Imaging.PixelFormat.Format24bppRgb);
 
             // BitmapクラスオブジェクトをPictureBocのImageへ
             pic.Image = bmp;
 
-            return Graphics.FromImage(bmp);
+            graphics = Graphics.FromImage(bmp);
+            graphics.InterpolationMode = mode;
         }
     }
 }

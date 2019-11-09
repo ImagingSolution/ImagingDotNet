@@ -20,10 +20,19 @@ namespace ImagingSolution
         /// </summary>
         public class LockBitmap : IDisposable
         {
+            /// <summary>
+            /// Bitmapのロック～アンロックを行います
+            /// </summary>
+            /// <param name="bmp">ロック、アンロックを行うBitmapクラスオブジェクト</param>
             public LockBitmap(Bitmap bmp) : this(bmp, new Rectangle(0, 0, bmp.Width, bmp.Height))
             {
             }
 
+            /// <summary>
+            /// 範囲を指定してBitmapのロック～アンロックを行います
+            /// </summary>
+            /// <param name="bmp">ロック、アンロックを行うBitmapクラスオブジェクト</param>
+            /// <param name="rect">ロック範囲をRectangleで指定します。</param>
             public LockBitmap(Bitmap bmp, Rectangle rect)
             {
                 // プロパティの代入
@@ -34,9 +43,11 @@ namespace ImagingSolution
                 this.BitCount = Bitmap.GetPixelFormatSize(this.PixelFormat);
                 this.Channel = this.BitCount / 8;
 
+                this.Rectangle = rect;
+
                 // Bitmapをロック
                 _bitmapData = bmp.LockBits(
-                        new Rectangle(0, 0, this.Width, this.Height),
+                        this.Rectangle,
                         System.Drawing.Imaging.ImageLockMode.ReadWrite,
                         this.PixelFormat
                     );
@@ -46,6 +57,9 @@ namespace ImagingSolution
                 this.Scan0 = _bitmapData.Scan0;
             }
 
+            /// <summary>
+            /// Dispose
+            /// </summary>
             public void Dispose()
             {
                 if ((_bitmap == null) || (_bitmapData == null)) return;
@@ -56,12 +70,18 @@ namespace ImagingSolution
                 _bitmap = null;
             }
 
+            /// <summary>
+            /// ファイナライザ
+            /// </summary>
             ~LockBitmap()
             {
                 Dispose();
             }
 
             private Bitmap _bitmap;
+            /// <summary>
+            /// ロックしているBitmapクラスオブジェクトを取得します。
+            /// </summary>
             public Bitmap Bitmap {
                 get
                 {
@@ -70,6 +90,9 @@ namespace ImagingSolution
             }
 
             private BitmapData _bitmapData;
+            /// <summary>
+            /// ロック中のBitmapDataクラスオブジェクトを取得します。
+            /// </summary>
             public BitmapData BitmapData {
                 get
                 {
@@ -77,13 +100,38 @@ namespace ImagingSolution
                 }
             }
 
+            /// <summary>
+            /// 画像の幅を取得します。
+            /// </summary>
             public int Width { get; }
+            /// <summary>
+            /// 画像の高さを取得します。
+            /// </summary>
             public int Height { get; }
+            /// <summary>
+            /// 画像のビット数を取得します。
+            /// </summary>
             public int BitCount { get; }
+            /// <summary>
+            /// 画像のPixelFormatを取得します。
+            /// </summary>
             public PixelFormat PixelFormat { get; }
+            /// <summary>
+            /// 画像のチャンネル数を取得します。
+            /// </summary>
             public int Channel { get; }
+            /// <summary>
+            /// 画像１行あたりのバイト数を取得します。
+            /// </summary>
             public int Stride { get; }
+            /// <summary>
+            /// 画像データの先頭ポインタを取得します。
+            /// </summary>
             public IntPtr Scan0 { get; }
+            /// <summary>
+            /// ロックした領域を取得します。
+            /// </summary>
+            public Rectangle Rectangle { get; }
 
             /// <summary>
             /// 輝度値を取得設定するインデクサ
