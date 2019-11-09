@@ -18,8 +18,9 @@ namespace Sample
         private Graphics _graphics; // 画像表示用Graphicsオブジェクト
         private Bitmap _bitmap;     // 最後に表示したBitmapクラス
         private Matrix _matAffine;  // 表示用アフィン変換行列
+        private string _srcFilename;// 元画像のファイル名
 
-        public MainForm()
+        public Gasyori100knock()
         {
             InitializeComponent();
         }
@@ -64,21 +65,17 @@ namespace Sample
 
         private void mnuFileOpen_Click(object sender, EventArgs e)
         {
-            // 画像ファイルを開く(ファイルを開くダイアログボックスも表示される)
-            var bmp = ImagingDotNet.CreateBitmap();
+            //ファイルを開くダイアログボックスの作成  
+            var ofd = new OpenFileDialog();
+            //ファイルフィルタ  
+            ofd.Filter = "Image File(*.bmp,*.jpg,*.png,*.tif)|*.bmp;*.jpg;*.png;*.tif|Bitmap(*.bmp)|*.bmp|Jpeg(*.jpg)|*.jpg|PNG(*.png)|*.png";
+            //ダイアログの表示 （Cancelボタンがクリックされた場合は何もしない）
+            if (ofd.ShowDialog() == DialogResult.Cancel) return;
 
-            if (bmp != null)
-            {
-                if (_bitmap != null) _bitmap.Dispose();
-                _bitmap = bmp;
-            }
-            else return;
+            // 画像ファイルを開く
+            LoadImage(ofd.FileName);
 
-            // 画像をピクチャボックスに合わせて表示するアフィン変換行列の計算
-            _matAffine.ZoomFit(picImage, _bitmap);
 
-            // 画像の表示
-            RedrawImage();
         }
 
         private void mnuFileSave_Click(object sender, EventArgs e)
@@ -163,19 +160,30 @@ namespace Sample
             RedrawImage();
         }
 
-        private void button1_Click(object sender, EventArgs e)
+        /// <summary>
+        /// 画像ファイルの読み込み、表示
+        /// </summary>
+        /// <param name="filename">画像ファイル名</param>
+        private void LoadImage(string filename)
         {
-            var sw = new System.Diagnostics.Stopwatch();
-            sw.Start();
+            _srcFilename = filename;
 
-            var bmpDst = _bitmap.CvtColor(ImagingDotNet.COLOR_BGR2GRAY);
+            var bmp = ImagingDotNet.CreateBitmap(filename);
 
-            sw.Stop();
-            MessageBox.Show($"CvtColor: {sw.ElapsedMilliseconds} msec");
+            if (bmp != null)
+            {
+                if (_bitmap != null) _bitmap.Dispose();
+                _bitmap = bmp;
+            }
+            else return;
 
-            _bitmap.Dispose();
-            _bitmap = bmpDst;
+            // 画像をピクチャボックスに合わせて表示するアフィン変換行列の計算
+            _matAffine.ZoomFit(picImage, _bitmap);
 
+            // ウィンドウ右下に画像情報を表示
+            lblImageInfo.Text = $"{_bitmap.Width} x {_bitmap.Height} x {_bitmap.PixelFormat}";
+
+            // 画像の表示
             RedrawImage();
         }
 
@@ -187,9 +195,24 @@ namespace Sample
             // ピクチャボックスの背景で画像を削除
             _graphics.Clear(picImage.BackColor);
             // アフィン変換行列に基づいて画像の描画
-            _graphics.DrawImage(_bitmap, _matAffine);
+            if (_bitmap != null)
+            {
+                _graphics.DrawImage(_bitmap, _matAffine);
+            }
             // 更新
             picImage.Refresh();
+        }
+
+        private void btnReload_Click(object sender, EventArgs e)
+        {
+            // 元画像の再読み込み
+            LoadImage(_srcFilename);
+        }
+
+        private void button_Click(object sender, EventArgs e)
+        {
+            // 画像処理の実行
+            GasyoriExecute(sender);
         }
 
 

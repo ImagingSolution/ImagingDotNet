@@ -46,11 +46,15 @@
   <ItemGroup>
     <Compile Include="Filter\CvtColor.cs" />
     <Compile Include="Filter\Enum_ColorConversionCodes .cs" />
+    <Compile Include="Filter\Enum_ThresholdTypes.cs" />
+    <Compile Include="Filter\Histogram.cs" />
+    <Compile Include="Filter\Threshold.cs" />
     <Compile Include="ImagingDotNet.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Utility\CreateBitmap.cs" />
     <Compile Include="Utility\CreateGraphics.cs" />
     <Compile Include="Utility\Disp.cs" />
+    <Compile Include="Utility\GetBitCout.cs" />
     <Compile Include="Utility\ImageData.cs" />
     <Compile Include="Utility\LockBitmap.cs" />
     <Compile Include="Utility\SaveBitmap.cs" />
