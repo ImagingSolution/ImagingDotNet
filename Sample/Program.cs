@@ -16,7 +16,10 @@ namespace Sample
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new MainForm());
+            // ベースのサンプル
+            //Application.Run(new MainForm());
+            // 画像処理１００本ノック
+            Application.Run(new Gasyori100knock());
         }
     }
 }

@@ -61,39 +61,33 @@ namespace ImagingSolution
                         var pSrc = (byte*)lbSrc.Scan0;
                         var pDst = (byte*)lbDst.Scan0;
 
-                        byte r, g, b;
-                        byte* pLineSrc = pSrc;
-                        byte* pLineDst = pDst;
-
                         var width = lbSrc.Width;
                         var height = lbSrc.Height;
                         var channel = lbSrc.Channel;
 
-                        for (int y = 0; y < height; y++)
+                        Parallel.For(0, height, y =>
                         {
                             // 行の先頭ポインタ
-                            pSrc = pLineSrc;
-                            pDst = pLineDst;
+                            byte* pLineSrc = pSrc + y * lbSrc.Stride;
+                            byte* pLineDst = pDst + y * lbDst.Stride;
 
                             for (int x = 0; x < width; x++)
                             {
                                 // 輝度値（カラー）の取得
-                                r = pSrc[2];
-                                g = pSrc[1];
-                                b = pSrc[0];
+                                int r = pLineSrc[2];
+                                int g = pLineSrc[1];
+                                int b = pLineSrc[0];
 
                                 // 輝度値(モノクロ)の設定
                                 // gray = 0.299 * R + 0.587 * G + 0.114 * B 
-                                pDst[0] = (byte)((77 * r + 150 * g + 29 * b) >> 8);
+                                pLineDst[0] = (byte)((77 * r + 150 * g + 29 * b) >> 8);
 
                                 // 次の画素へ
-                                pSrc += channel;
-                                pDst++;
+                                pLineSrc += channel;
+                                pLineDst++;
                             }
-                            // 次のラインへ
-                            pLineSrc += lbSrc.Stride;
-                            pLineDst += lbDst.Stride;
                         }
+                        );
                     }
                     break;
 

@@ -14,6 +14,23 @@ namespace ImagingSolution
     /// </summary>
     public static partial class ImagingDotNet
     {
+
+        /// <summary>
+        /// ファイルを開くダイアログボックスで画像ファイルを開く
+        /// </summary>
+        /// <returns></returns>
+        public static Bitmap CreateBitmap()
+        {
+            //ファイルを開くダイアログボックスの作成  
+            var ofd = new OpenFileDialog();
+            //ファイルフィルタ  
+            ofd.Filter = "Image File(*.bmp,*.jpg,*.png,*.tif)|*.bmp;*.jpg;*.png;*.tif|Bitmap(*.bmp)|*.bmp|Jpeg(*.jpg)|*.jpg|PNG(*.png)|*.png";
+            //ダイアログの表示 （Cancelボタンがクリックされた場合は何もしない）
+            if (ofd.ShowDialog() == DialogResult.Cancel) return null;
+
+            return CreateBitmap(ofd.FileName);
+        }
+
         /// <summary>
         /// 画像ファイルを指定してBitmapクラスオブジェクトを作成します。（Bitmapクラスと同じ）
         /// </summary>
@@ -23,17 +40,7 @@ namespace ImagingSolution
         {
             if (System.IO.File.Exists(filename) == false) return null;
 
-            Bitmap bmp;
-
-            // ファイルストリームでファイルを開く
-            using (var fs = new System.IO.FileStream(
-                filename,
-                System.IO.FileMode.Open,
-                System.IO.FileAccess.Read))
-            {
-                bmp = new Bitmap(fs);
-            }
-            return bmp;
+            return new Bitmap(filename);
         }
 
         /// <summary>

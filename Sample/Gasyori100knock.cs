@@ -13,7 +13,7 @@ using ImagingSolution;
 
 namespace Sample
 {
-    public partial class MainForm : Form
+    public partial class Gasyori100knock : Form
     {
         private Graphics _graphics; // 画像表示用Graphicsオブジェクト
         private Bitmap _bitmap;     // 最後に表示したBitmapクラス

@@ -53,6 +53,7 @@
     <Compile Include="Utility\Disp.cs" />
     <Compile Include="Utility\ImageData.cs" />
     <Compile Include="Utility\LockBitmap.cs" />
+    <Compile Include="Utility\SaveBitmap.cs" />
     <Compile Include="Utility\SetGrayScalePalette.cs" />
     <Compile Include="Utility\Template.cs" />
   </ItemGroup>
