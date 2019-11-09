@@ -5,12 +5,12 @@ using System.Runtime.InteropServices;
 // アセンブリに関する一般情報は以下の属性セットをとおして制御されます。
 // アセンブリに関連付けられている情報を変更するには、
 // これらの属性値を変更してください。
-[assembly: AssemblyTitle("ImagingSolution.ImagingDotNet")]
+[assembly: AssemblyTitle("Sample")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("ImagingSolution")]
-[assembly: AssemblyProduct("ImagingSolution")]
-[assembly: AssemblyCopyright("Copyright © ImagingSolution Inc. 2019")]
+[assembly: AssemblyCompany("HP Inc.")]
+[assembly: AssemblyProduct("Sample")]
+[assembly: AssemblyCopyright("Copyright © HP Inc. 2019")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
@@ -20,7 +20,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // このプロジェクトが COM に公開される場合、次の GUID が typelib の ID になります
-[assembly: Guid("e14736dd-05f5-4eab-b94d-202458e92063")]
+[assembly: Guid("6d2de54c-cf46-42d3-819b-4ee0b8ca51e1")]
 
 // アセンブリのバージョン情報は次の 4 つの値で構成されています:
 //

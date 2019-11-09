@@ -6,7 +6,8 @@ using System.Threading.Tasks;
 
 namespace ImagingSolution
 {
-    public class Class1
+    public static partial class ImagingDotNet
     {
+
     }
 }
